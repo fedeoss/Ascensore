@@ -1,0 +1,14 @@
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\bin\Debug\ascensore.exe.config
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\bin\Debug\ascensore.exe
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\bin\Debug\ascensore.pdb
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\obj\Debug\ascensore.csprojAssemblyReference.cache
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\obj\Debug\MainWindow.g.cs
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\obj\Debug\App.g.cs
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\obj\Debug\ascensore_MarkupCompile.cache
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\obj\Debug\ascensore_MarkupCompile.lref
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\obj\Debug\MainWindow.baml
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\obj\Debug\ascensore.g.resources
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\obj\Debug\ascensore.Properties.Resources.resources
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\obj\Debug\ascensore.csproj.GenerateResource.cache
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\obj\Debug\ascensore.exe
+C:\Users\federica\Desktop\ascensore\ascensore\ascensore\obj\Debug\ascensore.pdb
