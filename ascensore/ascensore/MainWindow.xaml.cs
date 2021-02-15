@@ -138,32 +138,15 @@ namespace ascensore
 
         public void piano0_Click(object sender, RoutedEventArgs e)
         {
-            if (!call)
-            {
-                ordinePrenotazione.Enqueue(1);
-                call = true;
-                do
-                {
-                    semaforo.WaitOne();
-                    Thread t1 = new Thread(new ThreadStart(Muovi1));
-                    t1.Start();
-                    ordinePrenotazione.Dequeue();
-                    t1.Join();
-                } while (nextStop == -1);
+            
+            ordinePrenotazione.Enqueue(1);
+            semaforo.WaitOne();
+            Thread t1 = new Thread(new ThreadStart(Muovi1));
+            t1.Start();
+            ordinePrenotazione.Dequeue();
 
-                semaforo.Release();
-            }
-            else
-            {
-                call = false;
-                nextStop = 0;
-                semaforo.WaitOne();
-                Thread t1 = new Thread(new ThreadStart(Muovi1));
-                t1.Start();
-                ordinePrenotazione.Dequeue();
-                t1.Join();
-                semaforo.Release();
-            }
+            t1.Join();
+            semaforo.Release();
         }
 
         private void Muovi1()
