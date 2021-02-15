@@ -62,57 +62,52 @@ namespace ascensore
 
                     Thread.Sleep(TimeSpan.FromMilliseconds(100));
 
-                    this.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                    .Margin = new Thickness(posizionePartenza3, 279, 0, 0);
-
-                    }));
+                    this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(36, posizionePartenza, 0, 0); }));
                 }
-            else
-                    while (posizionePartenza == 125)
-                    {
-                        posizionePartenza 125;
 
-                        Thread.Sleep(TimeSpan.FromMilliseconds(100));
-
-                        this.Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                    .Margin = new Thickness(posizionePartenza3, 279, 0, 0);
-                        }));
-                    }
             }
-            private void muoviAscensore1()
+            else if (posizionePartenza == 19)
             {
+                while (posizionePartenza == 125)
+                {
+                    posizionePartenza = 125;
 
-            }
-            private void muoviAscensore2()
-            {
+                    Thread.Sleep(TimeSpan.FromMilliseconds(100));
 
-            }
-
-            public void piano0_Click(object sender, RoutedEventArgs e)
-            {
-                Thread t1 = new Thread(new ThreadStart(muoviAscensore0));
-                t1.Start();
-                t1.Join();
+                    this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(36, posizionePartenza, 0, 0); }));
+                }
             }
 
-            private void piano1_Click(object sender, RoutedEventArgs e)
-            {
-                Thread t2 = new Thread(new ThreadStart(muoviAscensore1));
-                t2.Start();
-                t2.Join();
-            }
+        }
+        private void muoviAscensore1()
+        {
 
-            private void piano2_Click(object sender, RoutedEventArgs e)
-            {
-                Thread t3 = new Thread(new ThreadStart(muoviAscensore2));
-                t3.Start();
-                t3.Join();
-            }
-
-
+        }
+        private void muoviAscensore2()
+        {
 
         }
 
+        public void piano0_Click(object sender, RoutedEventArgs e)
+        {
+            Thread t1 = new Thread(new ThreadStart(muoviAscensore0));
+            t1.Start();
+            t1.Join();
+        }
+
+        private void piano1_Click(object sender, RoutedEventArgs e)
+        {
+            Thread t2 = new Thread(new ThreadStart(muoviAscensore1));
+            t2.Start();
+            t2.Join();
+        }
+
+        private void piano2_Click(object sender, RoutedEventArgs e)
+        {
+            Thread t3 = new Thread(new ThreadStart(muoviAscensore2));
+            t3.Start();
+            t3.Join();
+        }
+
     }
+}
