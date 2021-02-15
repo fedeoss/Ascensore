@@ -21,7 +21,7 @@ namespace ascensore
     /// <summary>
     /// Logica di interazione per MainWindow.xaml
     /// </summary>
-    /// ealizzare un programma concorrente che consenta di gestire il 
+    /// Realizzare un programma concorrente che consenta di gestire il 
     /// movimento di un ascensore in un palazzo di 5 piani. In particolare consentire 
     /// di gestire 6 prenotazioni consecutive riferite ai bottoni dei 5 piani e quello 
     /// all'interno dell'ascensore. In una prima versione ipotizzare che l'ascensore possa 
@@ -36,38 +36,83 @@ namespace ascensore
     ///    IDEE: 
     ///    mettere all'interno del semaforo lo spostamento dell'immagine a seconda di cosa si clicca nella tastiera dei bottoni.
     ///    in altezza si deve muovere:
-    ///    a 50 se piano 2
-    ///    a 68 se piano 1
-    ///    a 176 se piano 0
+    ///   36,-102 se piano 2
+    ///    36,19 se piano 1
+    ///    36,125 se piano 0
 
 
 
     public partial class MainWindow : Window
     {
+
+
         public MainWindow()
-        { 
-            Thread t1 = new Thread(new ThreadStart(F));
-            t1.Start();
-            InitializeComponent();
+        {
+
+
         }
-        int posizionePartenza1;
-        
+        public int posizionePartenza = 0;
+        private void muoviAscensore0()
+        {
+            if (posizionePartenza == -102)
+            {
+                while (posizionePartenza == 125)
+                {
+                    posizionePartenza = 125;
+
+                    Thread.Sleep(TimeSpan.FromMilliseconds(100));
+
+                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                    .Margin = new Thickness(posizionePartenza3, 279, 0, 0);
+
+                    }));
+                }
+            else
+                    while (posizionePartenza == 125)
+                    {
+                        posizionePartenza 125;
+
+                        Thread.Sleep(TimeSpan.FromMilliseconds(100));
+
+                        this.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                    .Margin = new Thickness(posizionePartenza3, 279, 0, 0);
+                        }));
+                    }
+            }
+            private void muoviAscensore1()
+            {
+
+            }
+            private void muoviAscensore2()
+            {
+
+            }
+
+            public void piano0_Click(object sender, RoutedEventArgs e)
+            {
+                Thread t1 = new Thread(new ThreadStart(muoviAscensore0));
+                t1.Start();
+                t1.Join();
+            }
+
+            private void piano1_Click(object sender, RoutedEventArgs e)
+            {
+                Thread t2 = new Thread(new ThreadStart(muoviAscensore1));
+                t2.Start();
+                t2.Join();
+            }
+
+            private void piano2_Click(object sender, RoutedEventArgs e)
+            {
+                Thread t3 = new Thread(new ThreadStart(muoviAscensore2));
+                t3.Start();
+                t3.Join();
+            }
+
+
+
+        }
 
     }
-
-    private void piano2_Click(object sender, RoutedEventArgs e)
-        {
-        
-        }
-
-        private void piano1_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void piano0_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-    }
-}
