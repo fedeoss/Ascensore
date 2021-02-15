@@ -6,7 +6,35 @@
         xmlns:local="clr-namespace:ascensore"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="-21,0,-8,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="443*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+        <Image HorizontalAlignment="Left" Height="139" Margin="96,153,0,0" VerticalAlignment="Top" Width="62">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="ascensore.png" Stretch="None"/>
+            </Image.OpacityMask>
+        </Image>
+        <Image x:Name="bottoni" HorizontalAlignment="Left" Height="238" Margin="527,118,0,0" VerticalAlignment="Top" Width="227" RenderTransformOrigin="0.5,0.5" Source="bott.jpg">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.22"/>
+                    <TranslateTransform X="0.002" Y="-0.001"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="bott.jpg"/>
+            </Image.OpacityMask>
+        </Image>
+        <Image x:Name="sfondo" HorizontalAlignment="Left" Height="282" Margin="-80,-46,0,0" VerticalAlignment="Top" Width="364" Source="ascensore.png" Stretch="Fill"/>
+        <Image x:Name="ascensore" HorizontalAlignment="Left" Height="399" Margin="32,10,0,0" VerticalAlignment="Top" Width="428" Source="sfondo.png" Stretch="Fill"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="piano0" Content="0" HorizontalAlignment="Left" Height="28" Margin="627,253,0,0" VerticalAlignment="Top" Width="31"/>
+        <Button x:Name="piano1" Content="1" HorizontalAlignment="Left" Height="31" Margin="627,189,0,0" VerticalAlignment="Top" Width="31"/>
+        <Button x:Name="piano2" Content="2" HorizontalAlignment="Left" Height="33" Margin="627,132,0,0" VerticalAlignment="Top" Width="31"/>
+
     </Grid>
 </Window>
