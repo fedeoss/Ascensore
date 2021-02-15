@@ -21,7 +21,7 @@ namespace ascensore
     /// <summary>
     /// Logica di interazione per MainWindow.xaml
     /// </summary>
-    /// ealizzare un programma concorrente che consenta di gestire il 
+    /// Realizzare un programma concorrente che consenta di gestire il 
     /// movimento di un ascensore in un palazzo di 5 piani. In particolare consentire 
     /// di gestire 6 prenotazioni consecutive riferite ai bottoni dei 5 piani e quello 
     /// all'interno dell'ascensore. In una prima versione ipotizzare che l'ascensore possa 
@@ -36,38 +36,183 @@ namespace ascensore
     ///    IDEE: 
     ///    mettere all'interno del semaforo lo spostamento dell'immagine a seconda di cosa si clicca nella tastiera dei bottoni.
     ///    in altezza si deve muovere:
-    ///    a 50 se piano 2
-    ///    a 68 se piano 1
-    ///    a 176 se piano 0
+    ///    36,-102 se piano 2
+    ///    36,19 se piano 1
+    ///    36,125 se piano 0
+    ///    ho inserito solo 3 piani perchè non trovavo immagini con 5 piani per cui dato che la logica non cambia;semplicemente ci sarebbero sue metodi in più ho deciso di lasciare cosi
 
 
 
     public partial class MainWindow : Window
     {
+
+
         public MainWindow()
-        { 
-            Thread t1 = new Thread(new ThreadStart(F));
-            t1.Start();
-            InitializeComponent();
-        }
-        int posizionePartenza1;
-        
-
-    }
-
-    private void piano2_Click(object sender, RoutedEventArgs e)
         {
-        
+            InitializeComponent();
+            posizionePartenza = -134;
+            ordinePrenotazione = new Queue<int>();
+            semaforo = new Semaphore(0, 1);
+            semaforo.Release();
+            
+            daDove = 36;
+
         }
+        private Queue<int> ordinePrenotazione;
+        public Semaphore semaforo;
+        public int posizionePartenza;
+        public int daDove;
+        int nextStop = -1;
+        bool call = false;
+        private void muoviAscensore0()
+        {
+
+
+            while (posizionePartenza > -134)
+            {
+                Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                posizionePartenza -= 25;
+                daDove += 25;
+                //36,125,429,-134
+                this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(36, daDove, 439, posizionePartenza); }));
+            }
+
+
+
+
+        }
+        private void muoviAscensore1()
+        {
+            if (posizionePartenza < -22)
+            {
+                while (posizionePartenza < -22)//|| posizionePartenza > - 22)
+                {
+
+
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    posizionePartenza += 25;
+                    daDove -= 25;
+
+
+                    //36,13,431,-22
+                    this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(36, daDove, 431, posizionePartenza); }));
+                }
+            }
+            else
+            {
+                while (posizionePartenza > -22)
+                {
+
+
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    posizionePartenza -= 25;
+                    daDove += 25;
+
+                    //36,13,431,-22
+                    this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(36, daDove, 431, posizionePartenza); }));
+                }
+            }
+        }
+        private void muoviAscensore2()
+        {
+
+
+            while (posizionePartenza < 97)
+            {
+                if (posizionePartenza < 97)
+                {
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    posizionePartenza += 25;
+                    daDove -= 25;
+                }
+                else if (posizionePartenza > 97)
+                {
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    posizionePartenza -= 25;
+                    daDove += 25;
+                }
+                //36,-106,429,97
+                this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(36, daDove, 429, posizionePartenza); }));
+            }
+        }
+
+        public void piano0_Click(object sender, RoutedEventArgs e)
+        {
+            if (!call)
+            {
+                ordinePrenotazione.Enqueue(1);
+                call = true;
+                do
+                {
+                    semaforo.WaitOne();
+                    Thread t1 = new Thread(new ThreadStart(Muovi1));
+                    t1.Start();
+                    ordinePrenotazione.Dequeue();
+                    t1.Join();
+                } while (nextStop == -1);
+
+                semaforo.Release();
+            }
+            else
+            {
+                call = false;
+                nextStop = 0;
+                semaforo.WaitOne();
+                Thread t1 = new Thread(new ThreadStart(Muovi1));
+                t1.Start();
+                ordinePrenotazione.Dequeue();
+                t1.Join();
+                semaforo.Release();
+            }
+        }
+
+        private void Muovi1()
+        {
+
+            Thread t1 = new Thread(new ThreadStart(muoviAscensore0));
+            t1.Start();
+
+        }
+
 
         private void piano1_Click(object sender, RoutedEventArgs e)
         {
+            ordinePrenotazione.Enqueue(2);
+            semaforo.WaitOne();
+            Thread t2 = new Thread(new ThreadStart(Muovi2));
+            t2.Start();
+            ordinePrenotazione.Dequeue();
 
+            t2.Join();
+            semaforo.Release();
         }
-
-        private void piano0_Click(object sender, RoutedEventArgs e)
+        private void Muovi2()
         {
 
+            Thread t2 = new Thread(new ThreadStart(muoviAscensore1));
+            t2.Start();
+
         }
+
+        private void piano2_Click(object sender, RoutedEventArgs e)
+        {
+            ordinePrenotazione.Enqueue(3);
+            semaforo.WaitOne();
+            Thread t3 = new Thread(new ThreadStart(Muovi3));
+            t3.Start();
+            ordinePrenotazione.Dequeue();
+
+            t3.Join();
+            semaforo.Release();
+        }
+        private void Muovi3()
+        {
+
+            Thread t3 = new Thread(new ThreadStart(muoviAscensore2));
+            t3.Start();
+
+        }
+
+
     }
 }
