@@ -31,139 +31,86 @@ namespace ascensore
     /// entri e scelga il piano a cui andare, a quel punto occorrerà spostare l'ascensore nel piano 
     /// e una volta fatta scendere la persona riprendere a servire i piani in ordine di prenotazione.
     /// 
-    /// In una seconda versione opzionale prevedere che l'ascensore contenga fino a 3 persone e che lo 
+    /// (In una seconda versione opzionale prevedere che l'ascensore contenga fino a 3 persone e che lo 
     /// spostamento dell'ascensore possa avere un criterio (ad esempio farlo muovere verso l'alto o verso il
     /// basso e servire i piani che incontra nello spostamento). Realizzare un'interfaccia grafica che mostri 
-    /// lo spostamento dell'ascensore e contenga sia i pulsanti di piano che la pulsantiera interna all'ascensore
+    /// lo spostamento dell'ascensore e contenga sia i pulsanti di piano che la pulsantiera interna all'ascensore)
     ///    
     ///    IDEE: 
     ///    mettere all'interno del semaforo lo spostamento dell'immagine a seconda di cosa si clicca nella tastiera dei bottoni.
     ///    in altezza si deve muovere:
-    ///    36,125,429,-134 se piano 0
-    ///    36,13,431,-22 se piano 1
-    ///    36,-106,429,97   se piano 2
-    ///    ho inserito solo 3 piani perchè non trovavo immagini con 5 piani per cui dato che la logica non cambia;semplicemente ci sarebbero due metodi in più uguali a quello del piano 1; quindi ho deciso di lasciare cosi
+    ///    -31,171,0,0 se piano 0
+    ///    -31,43,0,0 se piano 1
+    ///    -31,-87,0,0 se piano 2
+    ///    -31,318,0,0 se piano -1
+    ///    -31,456,0,-129   se piano -2
+    ///    
     ///    il mio codice prevede che la teastiera all'interno dell'ascensore e fuori poichè aspetta che si riclicchi per spostarsi.Quindi la chiamata al piano coincide con il premere il tasto con il numero del piano in cui ci si trova
     ///       
-
-
 
     public partial class MainWindow : Window
     {
         private Queue<int> ordinePrenotazione;
-        public Semaphore semaforo;
-        public int posizionePartenza;
-        public int daDove;
+        //public Semaphore semaforo;
+        public int posizionePartenza;     
+        private static object x = new object();
 
         public MainWindow()
         {
             InitializeComponent();
-            posizionePartenza = -134;
+            posizionePartenza = 0;
             ordinePrenotazione = new Queue<int>();
-            semaforo = new Semaphore(0, 1);
-            semaforo.Release();            
-            daDove = 36;
+           // semaforo = new Semaphore(0, 1);
+           // semaforo.Release();             
+        }
+        private void piano2_Click(object sender, RoutedEventArgs e)
+        {
+            lock (x)
+            {
+                ordinePrenotazione.Enqueue(3);
+                // semaforo.WaitOne();//creo il semafotro rosso
+                Thread t3 = new Thread(new ThreadStart(Muovi3));
+                t3.Start();
+                ordinePrenotazione.Dequeue();
+                t3.Join();
+                //   semaforo.Release();//lascio il semaforo;quindi diventa verde
+                this.Dispatcher.BeginInvoke(new Action(() => { barbie.Margin = new Thickness(191, 56, 0, 580); }));
+            }
         }
 
-        public void muoviAscensore0()
+        private void Muovi3()
         {
-            while (posizionePartenza > -134)//può essere solo più in alto per cui non serve un if
+            Thread t3 = new Thread(new ThreadStart(muoviAscensore2));
+            t3.Start();
+        }
+        private void muoviAscensore2()
+        {
+            while (posizionePartenza < -87)//finchè non arriva al piano
             {
                 Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                posizionePartenza -= 25;
-                daDove += 25;
-                //36,125,429,-134
-                this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(36, daDove, 439, posizionePartenza); }));
+                posizionePartenza += 25;
+                //-31,-87,0,0      
+                this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(-31, posizionePartenza, 0, 0); }));
             }
-            posizionePartenza = -134;
-            daDove = 125;
+            posizionePartenza = -87;
+
             //fuori dal while perchè così l'ascensore si ferma esattamente nel punto in cui deve e non leggermente piu in alto.
             //dato che senza queste due variabili lo faceva;aggiungendo 25 non arrivava mai al numero richiesta perchè non era multiplo.
         }
-
-        private void muoviAscensore1()
-        {
-            if (posizionePartenza < -22)
-            {
-                while (posizionePartenza < -22)//||se è più in basso
-                {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                    posizionePartenza += 25;
-                    daDove -= 25;
-                    //36,13,431,-22
-                    this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(36, daDove, 431, posizionePartenza); }));
-                }
-            }
-            else
-            {
-                while (posizionePartenza > -22) //se è più in alto
-                {
-                   Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                    posizionePartenza -= 25;
-                    daDove += 25;
-                    //36,13,431,-22
-                    this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(36, daDove, 431, posizionePartenza); }));
-                }
-            }
-            posizionePartenza = -22;
-            daDove = 13;
-            //fuori dal while perchè così l'ascensore si ferma esattamente nel punto in cui deve e non leggermente piu in alto.
-            //dato che senza queste due variabili lo faceva;aggiungendo 25 non arrivava mai al numero richiesta perchè non era multiplo.
-        }
-
-        private void muoviAscensore2()
-        {           
-            while (posizionePartenza < 97)//finchè non arriva al piano
-            {
-                if (posizionePartenza < 97)//se è più in alto
-                {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                    posizionePartenza += 25;
-                    daDove -= 25;
-                }
-                /* else if (posizionePartenza > 97)//servirebbe se aggiungessimo un piano più in alto
-                 {
-                     Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                     posizionePartenza -= 25;
-                     daDove += 25;
-               } */
-                //36,-106,429,97      
-                this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(36, daDove, 429, posizionePartenza); }));
-            }         
-            posizionePartenza = 97;
-            daDove = -106;
-            //fuori dal while perchè così l'ascensore si ferma esattamente nel punto in cui deve e non leggermente piu in alto.
-            //dato che senza queste due variabili lo faceva;aggiungendo 25 non arrivava mai al numero richiesta perchè non era multiplo.
-        }
-
-        public void piano0_Click(object sender, RoutedEventArgs e)
-        {           
-            ordinePrenotazione.Enqueue(1);
-            semaforo.WaitOne(); //creo il semafotro rosso
-            Thread t1 = new Thread(new ThreadStart(Muovi1));
-            t1.Start();
-            ordinePrenotazione.Dequeue();
-            t1.Join();
-            semaforo.Release();//lascio il semaforo;quindi diventa verde
-            this.Dispatcher.BeginInvoke(new Action(() => { barbie.Margin = new Thickness(192, 239, 0, -7); }));
-        }
-
-        private void Muovi1()
-        {
-            Thread t1 = new Thread(new ThreadStart(muoviAscensore0));
-            t1.Start();
-        }
-
+        
         private void piano1_Click(object sender, RoutedEventArgs e)
         {
-            ordinePrenotazione.Enqueue(2);
-            semaforo.WaitOne();//creo il semafotro rosso
-            Thread t2 = new Thread(new ThreadStart(Muovi2));
-            t2.Start();
-            ordinePrenotazione.Dequeue();
-            t2.Join();
-            semaforo.Release();//lascio il semaforo;quindi diventa verde
-            this.Dispatcher.BeginInvoke(new Action(() => { barbie.Margin = new Thickness(184, 126, 0, 127); }));
+            lock (x)
+            {
+                ordinePrenotazione.Enqueue(2);
+                // semaforo.WaitOne();//creo il semafotro rosso
+                Thread t2 = new Thread(new ThreadStart(Muovi2));
+                t2.Start();
+                ordinePrenotazione.Dequeue();
+                t2.Join();
+                // semaforo.Release();//lascio il semaforo;quindi diventa verde
+                this.Dispatcher.BeginInvoke(new Action(() => { barbie.Margin = new Thickness(191, 186, 0, 450); }));
+            }          
         }
 
         private void Muovi2()
@@ -171,23 +118,158 @@ namespace ascensore
             Thread t2 = new Thread(new ThreadStart(muoviAscensore1));
             t2.Start();
         }
-
-        private void piano2_Click(object sender, RoutedEventArgs e)
+        private void muoviAscensore1()
         {
-            ordinePrenotazione.Enqueue(3);
-            semaforo.WaitOne();//creo il semafotro rosso
-            Thread t3 = new Thread(new ThreadStart(Muovi3));
-            t3.Start();
-            ordinePrenotazione.Dequeue();
-            t3.Join();
-            semaforo.Release();//lascio il semaforo;quindi diventa verde
-            this.Dispatcher.BeginInvoke(new Action(() => { barbie.Margin = new Thickness(178,10,0,243); }));
+            if (posizionePartenza < 43)
+            {
+                while (posizionePartenza < 43)//||se è più in basso
+                {
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    posizionePartenza += 25;
+                    //-31,43,0,0
+                    this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(-31, posizionePartenza, 0, 0); }));
+                }
+            }
+            else
+            {
+                while (posizionePartenza > 43) //se è più in alto
+                {
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    posizionePartenza -= 25;
+                    //-31,43,0,0
+                    this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(-31, posizionePartenza, 0, 0); }));
+                }
+            }
+            posizionePartenza = 43;
+            //fuori dal while perchè così l'ascensore si ferma esattamente nel punto in cui deve e non leggermente piu in alto.
+            //dato che senza queste due variabili lo faceva;aggiungendo 25 non arrivava mai al numero richiesta perchè non era multiplo.
         }
 
-        private void Muovi3()
+        public void piano0_Click(object sender, RoutedEventArgs e)
         {
-           Thread t3 = new Thread(new ThreadStart(muoviAscensore2));
-            t3.Start();
+            lock (x)
+            {
+                ordinePrenotazione.Enqueue(1);
+                // semaforo.WaitOne(); //creo il semafotro rosso
+                Thread t1 = new Thread(new ThreadStart(Muovi1));
+                t1.Start();
+                ordinePrenotazione.Dequeue();
+                t1.Join();
+                // semaforo.Release();//lascio il semaforo;quindi diventa verde
+                this.Dispatcher.BeginInvoke(new Action(() => { barbie.Margin = new Thickness(191, 324, 0, 312); }));
+            }
+        }
+
+        private void Muovi1()
+        {
+            Thread t1 = new Thread(new ThreadStart(muoviAscensore0));
+            t1.Start();
+        }
+        public void muoviAscensore0()
+        {
+            while (posizionePartenza < 171)
+            {
+                if (posizionePartenza < 171)
+                {
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    posizionePartenza += 25;
+                    //-31,171,0,0
+                    this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(-31, posizionePartenza, 0, 0); }));
+                }
+                else if (posizionePartenza > 171)
+                {
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    posizionePartenza -= 25;
+                    //-31,171,0,0
+                    this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(-31, posizionePartenza, 0, 0); }));
+                }
+            }
+            posizionePartenza = 171;
+            //fuori dal while perchè così l'ascensore si ferma esattamente nel punto in cui deve e non leggermente piu in alto.
+            //dato che senza queste due variabili lo faceva;aggiungendo 25 non arrivava mai al numero richiesta perchè non era multiplo.
+        }
+
+        private void piano_1_Click(object sender, RoutedEventArgs e)
+        {
+            lock (x)
+            {
+                ordinePrenotazione.Enqueue(-1);
+                // semaforo.WaitOne();//creo il semafotro rosso
+                Thread t4 = new Thread(new ThreadStart(Muovi4));
+                t4.Start();
+                ordinePrenotazione.Dequeue();
+                t4.Join();
+                //   semaforo.Release();//lascio il semaforo;quindi diventa verde
+                this.Dispatcher.BeginInvoke(new Action(() => { barbie.Margin = new Thickness(191, 458, 0, 178); }));
+            }
+        }
+        private void Muovi4()
+        {
+            Thread t4 = new Thread(new ThreadStart(muoviAscensore3));
+            t4.Start();
+        }
+        private void muoviAscensore3()
+        {
+            while (posizionePartenza < 318)//finchè non arriva al piano
+            {
+                if (posizionePartenza < 318)
+                {
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    posizionePartenza += 25;
+                }
+                else if (posizionePartenza > 318)
+                {
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    posizionePartenza -= 25;
+                }
+                //-31,318,0,0     
+                this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(-31, posizionePartenza, 0, 0); }));
+            }
+            posizionePartenza = 318;
+            //fuori dal while perchè così l'ascensore si ferma esattamente nel punto in cui deve e non leggermente piu in alto.
+            //dato che senza queste due variabili lo faceva;aggiungendo 25 non arrivava mai al numero richiesta perchè non era multiplo.
+        }
+
+        private void piano_2_Click(object sender, RoutedEventArgs e)
+        {
+            lock (x)
+            {
+                ordinePrenotazione.Enqueue(-2);
+                // semaforo.WaitOne();//creo il semafotro rosso
+                Thread t5 = new Thread(new ThreadStart(Muovi5));
+                t5.Start();
+                ordinePrenotazione.Dequeue();
+                t5.Join();
+                //   semaforo.Release();//lascio il semaforo;quindi diventa verde
+                this.Dispatcher.BeginInvoke(new Action(() => { barbie.Margin = new Thickness(191, 607, 0, 29); }));
+            }
+        }
+        private void Muovi5()
+        {
+            Thread t5 = new Thread(new ThreadStart(muoviAscensore4));
+            t5.Start();
+        }
+        private void muoviAscensore4()
+        {
+            while (posizionePartenza < 456)//finchè non arriva al piano
+            {
+                if (posizionePartenza < 456)//se è più in alto
+                {
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    posizionePartenza += 25;
+                }
+                /* else if (posizionePartenza > 456)//servirebbe se aggiungessimo un piano più in basso
+                 {
+                     Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                     posizionePartenza -= 25;                    
+                 } 
+               */
+                //-31,456,0,-129     
+                this.Dispatcher.BeginInvoke(new Action(() => { ascensore1.Margin = new Thickness(-31, posizionePartenza, 0, -129); }));
+            }
+            posizionePartenza = 456;
+            //fuori dal while perchè così l'ascensore si ferma esattamente nel punto in cui deve e non leggermente piu in alto.
+            //dato che senza queste due variabili lo faceva;aggiungendo 25 non arrivava mai al numero richiesta perchè non era multiplo.
         }
     }
 }

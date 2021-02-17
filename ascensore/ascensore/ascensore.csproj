@@ -95,19 +95,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ASCEBARBIE.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="SFONDOBARBIE.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="afondo.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="download.png" />
+    <Resource Include="barbie.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="barbie.png" />
+    <Resource Include="ascensore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="tastietino.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ASCEBARBIE.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

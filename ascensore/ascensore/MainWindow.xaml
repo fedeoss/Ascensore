@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ascensore"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid x:Name="casa" Margin="-21,0,-8,0">
+        Title="MainWindow" Height="792" Width="860">
+    <Grid x:Name="casa" Margin="-21,10,-36,-31" Height="782" VerticalAlignment="Top">
         <Grid.Background>
             <ImageBrush ImageSource="afondo.jpg" Stretch="UniformToFill" Opacity="0.25"/>
         </Grid.Background>
@@ -15,9 +15,20 @@
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <Image HorizontalAlignment="Left" Height="139" Margin="96,153,0,0" VerticalAlignment="Top" Width="62" OpacityMask="{x:Null}"/>
-        <Image x:Name="ascensore" HorizontalAlignment="Left" Height="399" Margin="40,10,0,0" VerticalAlignment="Top" Width="386" Source="SFONDOBARBIE.png" Stretch="Fill"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="821" Grid.ColumnSpan="2"/>
-        <Image x:Name="bottoni" HorizontalAlignment="Left" Height="302" Margin="532,86,0,0" VerticalAlignment="Top" Width="238" RenderTransformOrigin="0.5,0.5" Source="download.png">
+        <Image x:Name="ascensore" HorizontalAlignment="Left" Height="1069" Margin="37,-82,0,-205" VerticalAlignment="Top" Width="384" Source="ascensore.png" Stretch="UniformToFill" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.151"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="753" VerticalAlignment="Top" Width="850" Margin="29,0,0,0">
+            <Image x:Name="ascensore1" HorizontalAlignment="Left" Height="424" Margin="-31,168,0,0" VerticalAlignment="Top" Width="390" Source="ASCEBARBIE.png" Stretch="Fill"/>
+        </Border>
+        <Image x:Name="bottoni" HorizontalAlignment="Left" Height="303" Margin="493,84,0,0" VerticalAlignment="Top" Width="348" RenderTransformOrigin="0.5,0.5" Source="tastietino.png">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -27,21 +38,13 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Button x:Name="piano0" Content="0" HorizontalAlignment="Left" Height="33" Margin="626,329,0,0" VerticalAlignment="Top" Width="44" Click="piano0_Click" RenderTransformOrigin="0.71,1.893" Background="#FFF03BD7" FontSize="20"/>
-        <Button x:Name="piano1" Content="1" HorizontalAlignment="Left" Height="33" Margin="626,239,0,0" VerticalAlignment="Top" Width="44" Click="piano1_Click" RenderTransformOrigin="-0.25,0.812" Background="#FFF03BD7" FontSize="20"/>
-        <Button x:Name="piano2" Content="2" HorizontalAlignment="Left" Height="33" Margin="626,132,0,0" VerticalAlignment="Top" Width="44" Click="piano2_Click" Background="#FFF03BD7" FontSize="20"/>
-        <Image x:Name="ascensore1" Margin="41,122,424,-131" Source="ASCEBARBIE.png" RenderTransformOrigin="0.913,0.627" Stretch="Fill">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="1.581"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Image x:Name="barbie" HorizontalAlignment="Left" Margin="312,31,0,0" Width="330" Source="barbie.png"/>
+        <Button x:Name="piano0" Content="0" HorizontalAlignment="Left" Height="33" Margin="626,221,0,0" VerticalAlignment="Top" Width="44" Click="piano0_Click" RenderTransformOrigin="0.71,1.893" Background="#FFF03BD7" FontSize="20"/>
+        <Button x:Name="piano_1" Content="-1" HorizontalAlignment="Left" Height="33" Margin="554,324,0,0" VerticalAlignment="Top" Width="44" Click="piano_1_Click" RenderTransformOrigin="-0.25,0.812" Background="#FFF03BD7" FontSize="20"/>
+        <Button x:Name="piano2" Content="2" HorizontalAlignment="Left" Height="33" Margin="702,129,0,0" VerticalAlignment="Top" Width="44" Click="piano2_Click" Background="#FFF03BD7" FontSize="20"/>
+        <Image x:Name="barbie" HorizontalAlignment="Left" Margin="516,372,-70,10" Width="463" Source="barbie.png" Grid.ColumnSpan="2"/>
         <Label Content="pulsantiera e piani" HorizontalAlignment="Left" Height="44" Margin="516,56,0,0" VerticalAlignment="Top" Width="257" FontSize="20" FontWeight="Bold" FontFamily="Splash" BorderBrush="#FFC455DC" Foreground="#FFC455DC"/>
+        <Button x:Name="piano1" Content="1" HorizontalAlignment="Left" Height="33" Margin="554,129,0,0" VerticalAlignment="Top" Width="44" Click="piano1_Click" RenderTransformOrigin="-0.25,0.812" Background="#FFF03BD7" FontSize="20"/>
+        <Button x:Name="piano_2" Content="-2" HorizontalAlignment="Left" Height="33" Margin="702,324,0,0" VerticalAlignment="Top" Width="44" Click="piano_2_Click" RenderTransformOrigin="-0.25,0.812" Background="#FFF03BD7" FontSize="20"/>
 
     </Grid>
 </Window>
