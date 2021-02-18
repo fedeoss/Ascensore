@@ -26,7 +26,7 @@
             </Image.RenderTransform>
         </Image>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="753" VerticalAlignment="Top" Width="850" Margin="29,0,0,0">
-            <Image x:Name="ascensore1" HorizontalAlignment="Left" Height="424" Margin="-31,168,0,0" VerticalAlignment="Top" Width="390" Source="ASCEBARBIE.png" Stretch="Fill"/>
+            <Image x:Name="ascensore1" Margin="-31,180,489,147" Source="ASCEBARBIE.png" Stretch="Fill"/>
         </Border>
         <Image x:Name="bottoni" HorizontalAlignment="Left" Height="303" Margin="493,84,0,0" VerticalAlignment="Top" Width="348" RenderTransformOrigin="0.5,0.5" Source="tastietino.png">
             <Image.RenderTransform>
